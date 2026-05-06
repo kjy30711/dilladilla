@@ -212,7 +212,7 @@ select.form-control { background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
 <body>
 
 <div class="top-bar">
-  <div class="brand">STITCH</div>
+  <div class="brand">dilladilla</div>
   <div class="top-date" id="topDate"></div>
 </div>
 
@@ -379,10 +379,10 @@ let historyFilter = 'all';
 function getData(key) { try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; } }
 function setData(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 
-function getProducts() { return getData('stitch_products') || []; }
-function getSales() { return getData('stitch_sales') || []; }
-function saveProducts(p) { setData('stitch_products', p); }
-function saveSales(s) { setData('stitch_sales', s); }
+function getProducts() { return getData('dilladilla_products') || []; }
+function getSales() { return getData('dilladilla_sales') || []; }
+function saveProducts(p) { setData('dilladilla_products', p); }
+function saveSales(s) { setData('dilladilla_sales', s); }
 
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
 
