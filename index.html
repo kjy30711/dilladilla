@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>dilladilla · 매장 관리</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>DILLADILLA · 매장 관리</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0e0e0e;
@@ -28,198 +28,116 @@ html, body { height:100%; background:var(--bg); color:var(--text); font-family:'
 body { display:flex; flex-direction:column; overflow:hidden; }
 
 /* 상단 헤더 */
-.top-bar {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:18px 20px 12px;
-  background:var(--bg);
-  border-bottom:1px solid var(--border);
-  flex-shrink:0;
-}
-.brand { font-family:'Cormorant Garamond', serif; font-size:22px; font-weight:300; letter-spacing:4px; color:var(--gold); }
+.top-bar { display:flex; align-items:center; justify-content:space-between; padding:18px 20px 12px; background:var(--bg); border-bottom:1px solid var(--border); flex-shrink:0; }
+.brand { font-family:'Cormorant Garamond', serif; font-size:22px; font-weight:300; letter-spacing:4px; color:var(--gold); text-transform: uppercase; }
 .top-date { font-size:11px; color:var(--text3); letter-spacing:1px; }
 
-/* 탭 콘텐츠 */
+/* 탭 콘텐츠 & 스크롤바 최적화 */
 .pages { flex:1; overflow:hidden; position:relative; }
-.page { position:absolute; inset:0; overflow-y:auto; padding:16px 16px calc(var(--tab-h) + 16px); display:none; -webkit-overflow-scrolling:touch; }
+.page { position:absolute; inset:0; overflow-y:scroll; padding:16px 16px calc(var(--tab-h) + 16px); display:none; -webkit-overflow-scrolling:touch; }
 .page.active { display:block; }
+.page::-webkit-scrollbar { width: 6px; }
+.page::-webkit-scrollbar-track { background: transparent; }
+.page::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+/* 가로 스크롤 숨김 */
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
 
 /* 하단 탭바 */
-.tab-bar {
-  display:flex; height:var(--tab-h);
-  background:var(--bg2); border-top:1px solid var(--border);
-  flex-shrink:0; position:relative; z-index:10;
-}
-.tab-btn {
-  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:4px; border:none; background:none; color:var(--text3);
-  font-family:'DM Sans', sans-serif; font-size:10px; letter-spacing:0.5px;
-  cursor:pointer; transition:color .2s;
-}
+.tab-bar { display:flex; height:var(--tab-h); background:var(--bg2); border-top:1px solid var(--border); flex-shrink:0; position:relative; z-index:10; }
+.tab-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; border:none; background:none; color:var(--text3); font-family:'DM Sans', sans-serif; font-size:9.5px; letter-spacing:0.5px; cursor:pointer; transition:color .2s; }
 .tab-btn.active { color:var(--gold); }
 .tab-btn svg { width:22px; height:22px; }
 
-/* 카드 */
-.card {
-  background:var(--card); border:1px solid var(--border);
-  border-radius:var(--radius); padding:16px; margin-bottom:12px;
-}
+/* 카드 및 섹션 타이틀 */
+.card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px; margin-bottom:12px; }
+.sec-title { font-size:11px; letter-spacing:2px; color:var(--text3); text-transform:uppercase; margin-bottom:12px; margin-top:4px; }
 
-/* 섹션 타이틀 */
-.sec-title {
-  font-size:11px; letter-spacing:2px; color:var(--text3); text-transform:uppercase;
-  margin-bottom:12px; margin-top:4px;
-}
+/* 검색창 */
+.search-box { position: relative; margin-bottom: 16px; }
+.search-box input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px 12px 36px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; }
+.search-box input:focus { border-color: var(--gold); }
+.search-box svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text3); width: 16px; height: 16px; pointer-events: none; }
+input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 
-/* 대시보드 */
+/* 기간 선택 세그먼트 */
+.period-selector { display: flex; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; padding: 4px; gap: 2px; }
+.period-btn { flex: 1 1 0%; min-width: 0; padding: 8px 0; border: none; background: none; color: var(--text3); font-size: 11px; font-weight: 500; cursor: pointer; border-radius: 7px; transition: all 0.2s; text-align: center; }
+.period-btn.active { background: var(--bg3); color: var(--gold); }
+
+/* 대시보드 스탯 */
 .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px; }
-.stat-card {
-  background:var(--card); border:1px solid var(--border);
-  border-radius:var(--radius); padding:14px 16px;
-}
+.stat-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; }
 .stat-label { font-size:10px; color:var(--text3); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px; }
-.stat-value { font-family:'Cormorant Garamond', serif; font-size:26px; font-weight:600; color:var(--text); line-height:1; }
-.stat-sub { font-size:11px; color:var(--text2); margin-top:4px; }
+.stat-value { font-family:'Inter', sans-serif; font-size:24px; font-weight:700; color:var(--text); line-height:1; letter-spacing:-0.5px; }
+.stat-sub { font-size:10px; color:var(--text2); margin-top:4px; }
 .stat-card.highlight { border-color:var(--gold); background:rgba(201,168,76,0.06); }
 .stat-card.highlight .stat-value { color:var(--gold2); }
 
-/* 최근판매 */
-.sale-item {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:12px 0; border-bottom:1px solid var(--border);
-}
-.sale-item:last-child { border-bottom:none; }
+/* 지출 리스트 */
+.finance-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); font-size:14px; }
+.finance-row:last-child { border-bottom:none; }
+.finance-label { color:var(--text2); }
+.finance-val { font-family:'Inter', sans-serif; font-weight:600; font-size:17px; letter-spacing:-0.5px; }
+.val-minus { color: var(--red); }
+.val-plus { color: var(--green); }
+
+/* 토글 스위치 */
+.switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border); transition: .3s; border-radius: 24px; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: var(--text); transition: .3s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--gold); }
+input:checked + .slider:before { transform: translateX(20px); background-color: #000; }
+
+/* 상품 및 뱃지 */
+.prod-price { font-family:'Inter', sans-serif; font-size:18px; color:var(--gold2); font-weight:600; letter-spacing:-0.5px; }
+.sale-item { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); }
 .sale-name { font-size:14px; font-weight:500; }
 .sale-meta { font-size:11px; color:var(--text3); margin-top:2px; }
-.sale-amount { font-family:'Cormorant Garamond', serif; font-size:20px; color:var(--gold2); font-weight:600; }
+.sale-amount { font-family:'Inter', sans-serif; font-size:18px; color:var(--gold2); font-weight:600; letter-spacing:-0.5px; }
+.badge-red { display:inline-block; padding:3px 6px; background:rgba(224,82,82,0.1); color:var(--red); border:1px solid rgba(224,82,82,0.3); border-radius:4px; font-size:10px; font-weight:600; }
+.badge-green { display:inline-block; padding:3px 6px; background:rgba(82,169,127,0.1); color:var(--green); border:1px solid rgba(82,169,127,0.3); border-radius:4px; font-size:10px; font-weight:600; }
 
-/* 버튼 */
-.btn {
-  display:inline-flex; align-items:center; justify-content:center; gap:6px;
-  padding:13px 20px; border-radius:10px; border:none; cursor:pointer;
-  font-family:'DM Sans', sans-serif; font-size:14px; font-weight:500;
-  transition:all .18s; width:100%;
-}
+/* 버튼 및 폼 */
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:13px 20px; border-radius:10px; border:none; cursor:pointer; font-family:'DM Sans', sans-serif; font-size:14px; font-weight:500; transition:all .18s; width:100%; }
 .btn-gold { background:var(--gold); color:#000; }
-.btn-gold:active { background:var(--gold2); }
 .btn-outline { background:transparent; color:var(--text2); border:1px solid var(--border); }
-.btn-outline:active { background:var(--bg3); }
-.btn-danger { background:rgba(224,82,82,0.12); color:var(--red); border:1px solid rgba(224,82,82,0.2); }
 .btn-sm { padding:8px 14px; font-size:12px; border-radius:8px; width:auto; }
-
-/* 입력 */
 .form-group { margin-bottom:14px; }
 .form-label { font-size:11px; color:var(--text3); letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; display:block; }
-.form-control {
-  width:100%; background:var(--bg3); border:1px solid var(--border);
-  border-radius:10px; padding:13px 14px; color:var(--text);
-  font-family:'DM Sans', sans-serif; font-size:15px; outline:none;
-  transition:border-color .18s; -webkit-appearance:none;
-}
-.form-control:focus { border-color:var(--gold); }
-.form-control::placeholder { color:var(--text3); }
-select.form-control { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a5652' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:36px; }
+.form-control { width:100%; background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:13px 14px; color:var(--text); font-family:'Inter', sans-serif; font-size:15px; font-weight:500; outline:none; letter-spacing:-0.5px; }
 
-/* 재고 뱃지 */
-.size-badge {
-  display:inline-flex; flex-direction:column; align-items:center;
-  background:var(--bg3); border:1px solid var(--border);
-  border-radius:8px; padding:8px 10px; min-width:48px;
-}
-.size-label { font-size:10px; color:var(--text3); letter-spacing:1px; }
-.size-qty { font-size:16px; font-weight:600; color:var(--text); line-height:1.2; }
+/* 수량조절/배지 */
+.qty-ctrl { display:flex; align-items:center; border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+.qty-btn { width:44px; height:44px; background:var(--bg3); border:none; color:var(--text); font-size:20px; }
+.qty-val { flex:1; text-align:center; font-family:'Inter', sans-serif; font-weight:600; font-size:16px; }
+.size-badge { display:inline-flex; flex-direction:column; align-items:center; background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:8px 10px; min-width:48px; }
+.size-qty { font-family:'Inter', sans-serif; font-weight:600; font-size:15px; margin-top:2px; }
 .size-qty.low { color:var(--red); }
-.size-qty.ok { color:var(--green); }
 .sizes-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
 
-/* 상품 카드 */
-.prod-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:4px; }
-.prod-name { font-size:15px; font-weight:500; }
-.prod-cat { font-size:11px; color:var(--text3); letter-spacing:1px; margin-top:2px; }
-.prod-price { font-family:'Cormorant Garamond', serif; font-size:22px; color:var(--gold2); font-weight:600; }
-.prod-actions { display:flex; gap:8px; margin-top:12px; }
-
-/* 판매입력 */
-.sell-product-select { display:none; }
-.quick-prod {
-  background:var(--bg3); border:1px solid var(--border); border-radius:10px;
-  padding:14px; display:flex; align-items:center; justify-content:space-between;
-  cursor:pointer; transition:border-color .18s; margin-bottom:10px;
-}
-.quick-prod:active { border-color:var(--gold); }
-.quick-prod-name { font-size:14px; font-weight:500; }
-.quick-prod-price { font-size:13px; color:var(--text2); }
-
-/* 내역 */
-.history-day { font-size:11px; color:var(--text3); letter-spacing:2px; text-transform:uppercase; margin:16px 0 8px; }
-.history-item {
-  background:var(--card); border:1px solid var(--border); border-radius:12px;
-  padding:14px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between;
-}
-.history-del { color:var(--text3); background:none; border:none; cursor:pointer; padding:4px; }
-
 /* 모달 */
-.modal-backdrop {
-  position:fixed; inset:0; background:rgba(0,0,0,0.7);
-  display:none; z-index:100; align-items:flex-end;
-  backdrop-filter:blur(4px);
-}
+.modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.7); display:none; z-index:100; align-items:flex-end; backdrop-filter:blur(4px); }
 .modal-backdrop.open { display:flex; }
-.modal {
-  background:var(--bg2); border-top:1px solid var(--border);
-  border-radius:20px 20px 0 0; padding:24px 20px 40px;
-  width:100%; max-height:85vh; overflow-y:auto;
-  animation:slideUp .25s ease;
-}
-@keyframes slideUp { from { transform:translateY(60px); opacity:0; } to { transform:translateY(0); opacity:1; } }
-.modal-title {
-  font-family:'Cormorant Garamond', serif; font-size:22px; font-weight:300;
-  letter-spacing:2px; margin-bottom:20px; color:var(--gold);
-}
-.modal-handle { width:40px; height:4px; background:var(--border); border-radius:2px; margin:0 auto 20px; }
+.modal { background:var(--bg2); border-top:1px solid var(--border); border-radius:20px 20px 0 0; padding:24px 20px 40px; width:100%; max-height:85vh; overflow-y:auto; }
+.modal-title { font-family:'Cormorant Garamond', serif; font-size:22px; color:var(--gold); margin-bottom:20px; }
 
-/* 토스트 */
-.toast {
-  position:fixed; bottom:calc(var(--tab-h) + 16px); left:50%; transform:translateX(-50%) translateY(20px);
-  background:var(--bg3); border:1px solid var(--border); border-radius:10px;
-  padding:12px 20px; font-size:13px; color:var(--text); white-space:nowrap;
-  opacity:0; transition:all .25s; z-index:200; pointer-events:none;
-}
+.toast { position:fixed; bottom:calc(var(--tab-h) + 16px); left:50%; transform:translateX(-50%) translateY(20px); background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:12px 20px; font-size:13px; opacity:0; transition:all .25s; z-index:200; }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-
-/* 빈상태 */
-.empty { text-align:center; padding:40px 20px; color:var(--text3); }
-.empty-icon { font-size:36px; margin-bottom:12px; }
-.empty-text { font-size:14px; }
-
-/* 수량조절 */
-.qty-ctrl { display:flex; align-items:center; gap:0; border:1px solid var(--border); border-radius:10px; overflow:hidden; }
-.qty-btn { width:44px; height:44px; background:var(--bg3); border:none; color:var(--text); font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.qty-val { flex:1; text-align:center; font-size:16px; font-weight:600; color:var(--text); }
-
-/* 수정모드 */
-.edit-sizes { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.edit-size-item { display:flex; flex-direction:column; gap:4px; }
-.edit-size-label { font-size:11px; color:var(--text3); letter-spacing:1px; }
-
-/* 통계 바 */
-.bar-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-.bar-label { font-size:12px; color:var(--text2); min-width:70px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.bar-track { flex:1; height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
-.bar-fill { height:100%; background:var(--gold); border-radius:3px; transition:width .4s; }
-.bar-val { font-size:12px; color:var(--text3); min-width:36px; text-align:right; }
 </style>
 </head>
 <body>
 
 <div class="top-bar">
-  <div class="brand">dilladilla</div>
+  <div class="brand">DILLADILLA</div>
   <div class="top-date" id="topDate"></div>
 </div>
 
 <div class="pages">
-  <!-- 홈 -->
   <div class="page active" id="page-home">
-    <div class="sec-title">오늘 현황</div>
+    <div class="sec-title">현황 요약</div>
     <div class="stats-grid">
       <div class="stat-card highlight">
         <div class="stat-label">오늘 매출</div>
@@ -227,56 +145,53 @@ select.form-control { background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
         <div class="stat-sub" id="today-count">0건</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">이번달 매출</div>
-        <div class="stat-value" id="month-sales">0</div>
-        <div class="stat-sub" id="month-count">0건</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">상품 수</div>
-        <div class="stat-value" id="prod-count">0</div>
-        <div class="stat-sub">종류</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">재고 부족</div>
-        <div class="stat-value" id="low-stock" style="color:var(--red)">0</div>
-        <div class="stat-sub">품목</div>
+        <div class="stat-label">이번달 매출 마진</div>
+        <div class="stat-value" id="month-profit" style="color:var(--green)">0</div>
+        <div class="stat-sub">고정비 차감 전</div>
       </div>
     </div>
-
-    <div class="sec-title" style="margin-top:8px">인기 상품</div>
-    <div class="card" id="top-products-list">
-      <div class="empty"><div class="empty-text">판매 내역이 없습니다</div></div>
+    <div class="card">
+        <div class="finance-row"><span class="finance-label">이번달 매출</span><span class="finance-val" id="sum-sales">0</span></div>
+        <div class="finance-row"><span class="finance-label">예상 부가세(10%)</span><span class="finance-val val-minus" id="sum-vat">0</span></div>
     </div>
-
     <div class="sec-title">최근 판매</div>
-    <div class="card" id="recent-sales-list">
-      <div class="empty"><div class="empty-text">판매 내역이 없습니다</div></div>
-    </div>
+    <div class="card" id="recent-sales-list"></div>
   </div>
 
-  <!-- 재고 -->
   <div class="page" id="page-inventory">
-    <button class="btn btn-gold" onclick="openAddProduct()" style="margin-bottom:16px">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      상품 추가
-    </button>
-    <div class="sec-title">상품 목록</div>
+    <button class="btn btn-gold" onclick="openAddProduct()" style="margin-bottom:16px">상품 추가</button>
+    <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="search-inventory" placeholder="상품명 검색..." oninput="renderInventory()">
+    </div>
     <div id="product-list"></div>
   </div>
 
-  <!-- 판매 -->
+  <div class="page" id="page-clients">
+    <button class="btn btn-gold" onclick="openAddClient()" style="margin-bottom:16px">신규 거래처 등록</button>
+    <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="search-client" placeholder="상호명 또는 메모 검색..." oninput="renderClients()">
+    </div>
+    <div class="sec-title">등록된 소매처 및 요약 대시보드</div>
+    <div id="client-list"></div>
+  </div>
+
   <div class="page" id="page-sell">
-    <div class="sec-title">상품 선택</div>
-    <div id="sell-product-list"></div>
+    <div id="sell-product-list-container">
+        <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="search-sell" placeholder="판매할 상품명 검색..." oninput="renderSellList()">
+        </div>
+        <div id="sell-product-list"></div>
+    </div>
     <div id="sell-form" style="display:none">
-      <div class="card" style="margin-bottom:12px; border-color:var(--gold)">
-        <div class="prod-name" id="sell-prod-name" style="font-size:16px; margin-bottom:4px"></div>
-        <div class="prod-price" id="sell-prod-price"></div>
+      <div class="card" style="border-color:var(--gold)">
+        <div class="prod-name" id="sell-prod-name" style="font-weight:600; font-size:18px;"></div>
+        <div style="font-family:'Inter', sans-serif; color:var(--gold2); font-size:22px; font-weight:700; letter-spacing:-0.5px; margin-top:4px;" id="sell-prod-price"></div>
       </div>
-      <div class="form-group">
-        <label class="form-label">사이즈</label>
-        <select class="form-control" id="sell-size"></select>
-      </div>
+      
+      <div class="form-group"><label class="form-label">사이즈</label><select class="form-control" id="sell-size"></select></div>
       <div class="form-group">
         <label class="form-label">수량</label>
         <div class="qty-ctrl">
@@ -285,484 +200,847 @@ select.form-control { background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
           <button class="qty-btn" onclick="changeQty(1)">+</button>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">결제 금액</label>
-        <input type="number" class="form-control" id="sell-price-override" placeholder="기본가 자동 입력">
+
+      <div class="card" style="background:var(--bg2); margin-top:20px;">
+          <div class="form-group">
+              <label class="form-label">구매자 (거래처)</label>
+              <select class="form-control" id="sell-client">
+                  <option value="">일반 고객 (소매)</option>
+              </select>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">결제 상태</label>
+              <select class="form-control" id="sell-is-paid">
+                  <option value="true">✅ 결제 완료 (현금/카드)</option>
+                  <option value="false">⏳ 미수금 (장부 달아놓기)</option>
+              </select>
+          </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">메모</label>
-        <input type="text" class="form-control" id="sell-memo" placeholder="선택사항">
-      </div>
+
+      <div class="form-group"><label class="form-label">최종 결제/청구 금액</label><input type="number" class="form-control" id="sell-price-override"></div>
       <button class="btn btn-gold" onclick="completeSale()" style="margin-bottom:10px">판매 완료</button>
       <button class="btn btn-outline" onclick="cancelSell()">취소</button>
     </div>
   </div>
 
-  <!-- 내역 -->
-  <div class="page" id="page-history">
-    <div style="display:flex; gap:8px; margin-bottom:16px">
-      <button class="btn btn-outline btn-sm" onclick="filterHistory('all')" id="f-all" style="flex:1; border-color:var(--gold); color:var(--gold)">전체</button>
-      <button class="btn btn-outline btn-sm" onclick="filterHistory('today')" id="f-today" style="flex:1">오늘</button>
-      <button class="btn btn-outline btn-sm" onclick="filterHistory('week')" id="f-week" style="flex:1">이번주</button>
-      <button class="btn btn-outline btn-sm" onclick="filterHistory('month')" id="f-month" style="flex:1">이번달</button>
+  <div class="page" id="page-finance">
+    <div class="period-selector">
+      <button class="period-btn" onclick="changePeriod('day', this)">일별</button>
+      <button class="period-btn" onclick="changePeriod('week', this)">주별</button>
+      <button class="period-btn active" onclick="changePeriod('month', this)">월별</button>
+      <button class="period-btn" onclick="changePeriod('year', this)">연별</button>
     </div>
+
+    <div class="sec-title" id="finance-title">이번 달 정산 상세</div>
+    <div class="card" id="finance-summary-card"></div>
+
+    <div class="sec-title">거래처별 매출 기여도 TOP 5</div>
+    <div class="card" id="finance-ranking-card"></div>
+
+    <div class="sec-title" style="margin-top:20px">해당 기간 장부 데이터 보기</div>
+    <div style="display:flex; gap:6px; margin-bottom:12px; overflow-x:auto; padding-bottom:4px;" class="hide-scrollbar">
+        <button id="view-btn-history" class="btn btn-sm btn-gold" style="flex:1; min-width:max-content; padding:8px 10px;" onclick="setFinanceView('history')">상세 내역</button>
+        <button id="view-btn-calendar" class="btn btn-sm btn-outline" style="flex:1; min-width:max-content; padding:8px 10px;" onclick="setFinanceView('calendar')">달력 요약</button>
+        <button id="view-btn-date" class="btn btn-sm btn-outline" style="flex:1; min-width:max-content; padding:8px 10px;" onclick="setFinanceView('date')">일자별</button>
+        <button id="view-btn-client" class="btn btn-sm btn-outline" style="flex:1; min-width:max-content; padding:8px 10px;" onclick="setFinanceView('client')">거래처별</button>
+    </div>
+
+    <div style="display:flex; gap:8px; margin-bottom:16px;">
+        <div class="search-box" style="flex:1; margin-bottom:0;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="search-finance" placeholder="상품명/거래처명..." oninput="renderFinanceListOnly()">
+        </div>
+        <input type="date" id="search-date" style="background:var(--bg3); border:1px solid var(--border); border-radius:10px; color:var(--text); padding:0 12px; font-family:'Inter', sans-serif; outline:none; height:42px;" onchange="renderFinanceListOnly()">
+    </div>
+    
     <div id="history-list"></div>
+  </div>
+
+  <div class="page" id="page-settings">
+    <div class="sec-title">월 고정 지출 설정</div>
+    <div class="card">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+                <label class="form-label">월세</label>
+                <input type="number" class="form-control" id="exp-rent" onchange="saveExpenses()" placeholder="0">
+            </div>
+            <div class="form-group">
+                <label class="form-label">관리비</label>
+                <input type="number" class="form-control" id="exp-maint" onchange="saveExpenses()" placeholder="0">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">기타 운영비 (인건비 등)</label>
+            <input type="number" class="form-control" id="exp-etc" onchange="saveExpenses()" placeholder="0">
+        </div>
+        <div style="font-size: 11px; color: var(--text3); line-height: 1.5;">
+            * 여기에 입력한 금액은 정산 탭에서 '납부 완료' 스위치를 켤 때 그 순간의 금액으로 장부에 영구 기록됩니다. 나중에 변경해도 이미 납부한 과거 기록은 변하지 않습니다.
+        </div>
+    </div>
+    
+    <div class="sec-title">데이터 관리</div>
+    <div class="card">
+        <button class="btn btn-outline btn-sm" onclick="if(confirm('데이터를 초기화할까요?')) {localStorage.clear(); location.reload();}">전체 데이터 초기화</button>
+    </div>
   </div>
 </div>
 
-<!-- 하단 탭 -->
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="goTab('home',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    홈
-  </button>
-  <button class="tab-btn" onclick="goTab('inventory',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
-    재고
-  </button>
-  <button class="tab-btn" onclick="goTab('sell',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.98 1.61h9.72a2 2 0 001.98-1.61L23 6H6"/></svg>
-    판매
-  </button>
-  <button class="tab-btn" onclick="goTab('history',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-    내역
-  </button>
+  <button class="tab-btn active" onclick="goTab('home',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>홈</button>
+  <button class="tab-btn" onclick="goTab('inventory',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>재고</button>
+  <button class="tab-btn" onclick="goTab('clients',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>거래처</button>
+  <button class="tab-btn" onclick="goTab('sell',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.98 1.61h9.72a2 2 0 001.98-1.61L23 6H6"/></svg>판매</button>
+  <button class="tab-btn" onclick="goTab('finance',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>정산</button>
+  <button class="tab-btn" onclick="goTab('settings',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>설정</button>
 </div>
 
-<!-- 상품 추가/수정 모달 -->
 <div class="modal-backdrop" id="modal-product">
   <div class="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title" id="modal-product-title">상품 추가</div>
-    <div class="form-group">
-      <label class="form-label">상품명</label>
-      <input type="text" class="form-control" id="p-name" placeholder="예: 린넨 오버핏 셔츠">
+    <div class="modal-title" id="modal-product-title">상품 정보</div>
+    <div class="form-group"><label class="form-label">상품명</label><input type="text" class="form-control" id="p-name"></div>
+    <div class="stats-grid">
+        <div class="form-group"><label class="form-label">사입 단가</label><input type="number" class="form-control" id="p-cost" placeholder="원가"></div>
+        <div class="form-group"><label class="form-label">판매가</label><input type="number" class="form-control" id="p-price" placeholder="판매가"></div>
     </div>
-    <div class="form-group">
-      <label class="form-label">카테고리</label>
-      <select class="form-control" id="p-cat">
-        <option value="상의">상의</option>
-        <option value="하의">하의</option>
-        <option value="아우터">아우터</option>
-        <option value="원피스">원피스</option>
-        <option value="가방">가방</option>
-        <option value="악세서리">악세서리</option>
-        <option value="기타">기타</option>
-      </select>
+    <div class="edit-sizes" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px">
+      <div class="edit-size-item"><label class="form-label">S</label><input type="number" class="form-control" id="sz-S" placeholder="0"></div>
+      <div class="edit-size-item"><label class="form-label">M</label><input type="number" class="form-control" id="sz-M" placeholder="0"></div>
+      <div class="edit-size-item"><label class="form-label">L</label><input type="number" class="form-control" id="sz-L" placeholder="0"></div>
+      <div class="edit-size-item"><label class="form-label">XL</label><input type="number" class="form-control" id="sz-XL" placeholder="0"></div>
     </div>
-    <div class="form-group">
-      <label class="form-label">판매가 (원)</label>
-      <input type="number" class="form-control" id="p-price" placeholder="0">
-    </div>
-    <div class="form-label" style="margin-bottom:10px; display:block; font-size:11px; color:var(--text3); letter-spacing:1px; text-transform:uppercase">사이즈별 재고</div>
-    <div class="edit-sizes" style="margin-bottom:16px">
-      <div class="edit-size-item"><label class="edit-size-label">S</label><input type="number" class="form-control" id="sz-S" placeholder="0" min="0"></div>
-      <div class="edit-size-item"><label class="edit-size-label">M</label><input type="number" class="form-control" id="sz-M" placeholder="0" min="0"></div>
-      <div class="edit-size-item"><label class="edit-size-label">L</label><input type="number" class="form-control" id="sz-L" placeholder="0" min="0"></div>
-      <div class="edit-size-item"><label class="edit-size-label">XL</label><input type="number" class="form-control" id="sz-XL" placeholder="0" min="0"></div>
-    </div>
-    <button class="btn btn-gold" onclick="saveProduct()" style="margin-bottom:10px">저장</button>
-    <button class="btn btn-outline" onclick="closeModal('modal-product')">취소</button>
+    <button class="btn btn-gold" onclick="saveProduct()">저장하기</button>
+    <button class="btn btn-outline" onclick="closeModal('modal-product')" style="margin-top:10px">닫기</button>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modal-client">
+  <div class="modal">
+    <div class="modal-title" id="modal-client-title">거래처 정보</div>
+    <div class="form-group"><label class="form-label">상호명 (소매점)</label><input type="text" class="form-control" id="c-name" placeholder="예: 딜라부띠끄"></div>
+    <div class="form-group"><label class="form-label">메모 / 연락처</label><input type="text" class="form-control" id="c-memo" placeholder="예: 사장님 번호 등"></div>
+    <button class="btn btn-gold" onclick="saveClient()">저장하기</button>
+    <button class="btn btn-outline" onclick="closeModal('modal-client')" style="margin-top:10px">닫기</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── DATA ───────────────────────────────────────────
 let editingProductId = null;
+let editingClientId = null;
 let selectedProduct = null;
 let sellQty = 1;
-let historyFilter = 'all';
+let currentPeriod = 'month';
+let currentFinanceView = 'history'; 
+let currentCalDate = new Date(); // 달력 전용 기준일
 
-function getData(key) { try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; } }
-function setData(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+function getData(k) { return JSON.parse(localStorage.getItem(k) || '[]'); }
+function setData(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
 
-function getProducts() { return getData('dilladilla_products') || []; }
-function getSales() { return getData('dilladilla_sales') || []; }
-function saveProducts(p) { setData('dilladilla_products', p); }
-function saveSales(s) { setData('dilladilla_sales', s); }
-
-function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
-
-// 샘플 데이터
-function initSample() {
-  if (getProducts().length === 0) {
-    saveProducts([
-      { id: uid(), name: '린넨 오버핏 셔츠', cat: '상의', price: 45000, sizes: { S:3, M:5, L:4, XL:2 } },
-      { id: uid(), name: '와이드 데님 팬츠', cat: '하의', price: 68000, sizes: { S:2, M:3, L:3, XL:1 } },
-      { id: uid(), name: '크롭 가디건', cat: '아우터', price: 55000, sizes: { S:4, M:2, L:1, XL:0 } },
-    ]);
-  }
+function getProducts() { return getData('dilla_prods'); }
+function getSales() { return getData('dilla_sales'); }
+function getClients() { return getData('dilla_clients'); }
+function getExpenses() { 
+    const exp = JSON.parse(localStorage.getItem('dilla_exp') || '{"rent":0, "maint":0, "etc":0}'); 
+    return { rent: exp.rent || 0, maint: exp.maint || 0, etc: exp.etc || 0 };
+}
+function getPaidMonths() { 
+    const rawData = getData('dilla_paid_months'); 
+    return rawData.map(item => typeof item === 'string' ? { month: item, rent: 0, maint: 0, etc: 0 } : item);
 }
 
-// ─── DATE ───────────────────────────────────────────
-function formatDate(d) {
-  const dt = new Date(d);
-  return `${dt.getMonth()+1}/${dt.getDate()} ${dt.getHours().toString().padStart(2,'0')}:${dt.getMinutes().toString().padStart(2,'0')}`;
-}
-function isToday(d) {
-  const t = new Date(d), n = new Date();
-  return t.toDateString() === n.toDateString();
-}
-function isThisWeek(d) {
-  const t = new Date(d), n = new Date();
-  const start = new Date(n); start.setDate(n.getDate() - n.getDay());
-  start.setHours(0,0,0,0);
-  return t >= start;
-}
-function isThisMonth(d) {
-  const t = new Date(d), n = new Date();
-  return t.getMonth() === n.getMonth() && t.getFullYear() === n.getFullYear();
-}
-
-function setTopDate() {
-  const n = new Date();
-  const days = ['일','월','화','수','목','금','토'];
-  document.getElementById('topDate').textContent =
-    `${n.getFullYear()}.${String(n.getMonth()+1).padStart(2,'0')}.${String(n.getDate()).padStart(2,'0')} ${days[n.getDay()]}요일`;
-}
-
-// ─── TABS ────────────────────────────────────────────
-function goTab(name, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  btn.classList.add('active');
-  if (name === 'home') renderHome();
-  if (name === 'inventory') renderInventory();
-  if (name === 'sell') renderSellList();
-  if (name === 'history') renderHistory();
-}
-
-// ─── TOAST ───────────────────────────────────────────
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
-}
-
-// ─── MODAL ───────────────────────────────────────────
+function toast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-// ─── HOME ────────────────────────────────────────────
-function renderHome() {
-  const sales = getSales();
-  const prods = getProducts();
-
-  const todaySales = sales.filter(s => isToday(s.date));
-  const monthSales = sales.filter(s => isThisMonth(s.date));
-  const todayTotal = todaySales.reduce((a,s) => a+s.total, 0);
-  const monthTotal = monthSales.reduce((a,s) => a+s.total, 0);
-
-  let lowCount = 0;
-  prods.forEach(p => {
-    const total = Object.values(p.sizes||{}).reduce((a,v)=>a+v,0);
-    if (total <= 3) lowCount++;
-  });
-
-  document.getElementById('today-sales').textContent = todayTotal.toLocaleString();
-  document.getElementById('today-count').textContent = `${todaySales.length}건`;
-  document.getElementById('month-sales').textContent = monthTotal.toLocaleString();
-  document.getElementById('month-count').textContent = `${monthSales.length}건`;
-  document.getElementById('prod-count').textContent = prods.length;
-  document.getElementById('low-stock').textContent = lowCount;
-
-  // 인기 상품 (판매량 기준)
-  const prodSales = {};
-  sales.filter(s => isThisMonth(s.date)).forEach(s => {
-    if (!prodSales[s.productName]) prodSales[s.productName] = { qty:0, total:0 };
-    prodSales[s.productName].qty += s.qty;
-    prodSales[s.productName].total += s.total;
-  });
-  const sorted = Object.entries(prodSales).sort((a,b) => b[1].qty - a[1].qty).slice(0,4);
-  const maxQty = sorted[0]?.[1]?.qty || 1;
-  const topEl = document.getElementById('top-products-list');
-  if (!sorted.length) {
-    topEl.innerHTML = '<div class="empty"><div class="empty-text">이번달 판매 내역 없음</div></div>';
-  } else {
-    topEl.innerHTML = sorted.map(([name, d]) => `
-      <div class="bar-row">
-        <div class="bar-label">${name}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${(d.qty/maxQty*100).toFixed(0)}%"></div></div>
-        <div class="bar-val">${d.qty}개</div>
-      </div>
-    `).join('');
-  }
-
-  // 최근 판매
-  const recent = [...sales].sort((a,b)=>b.date-a.date).slice(0,5);
-  const recEl = document.getElementById('recent-sales-list');
-  if (!recent.length) {
-    recEl.innerHTML = '<div class="empty"><div class="empty-text">판매 내역이 없습니다</div></div>';
-  } else {
-    recEl.innerHTML = recent.map(s => `
-      <div class="sale-item">
-        <div>
-          <div class="sale-name">${s.productName}</div>
-          <div class="sale-meta">${s.size} · ${s.qty}개 · ${formatDate(s.date)}</div>
-          ${s.memo ? `<div class="sale-meta">${s.memo}</div>` : ''}
-        </div>
-        <div class="sale-amount">${s.total.toLocaleString()}</div>
-      </div>
-    `).join('');
-  }
+function init() {
+    if(getProducts().length === 0) {
+        setData('dilla_prods', [{id:'p1', name:'디올 테일러드 자켓', cost:85000, price:189000, sizes:{S:2,M:3,L:2,XL:1}}]);
+    }
+    const n = new Date();
+    document.getElementById('topDate').textContent = `${n.getFullYear()}.${n.getMonth()+1}.${n.getDate()}`;
+    const exp = getExpenses();
+    document.getElementById('exp-rent').value = exp.rent;
+    document.getElementById('exp-maint').value = exp.maint;
+    document.getElementById('exp-etc').value = exp.etc;
+    renderHome();
 }
 
-// ─── INVENTORY ───────────────────────────────────────
+function goTab(name, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-'+name).classList.add('active');
+    btn.classList.add('active');
+    
+    if(name==='home') renderHome();
+    if(name==='inventory') { document.getElementById('search-inventory').value = ''; renderInventory(); }
+    if(name==='clients') { document.getElementById('search-client').value = ''; renderClients(); }
+    if(name==='sell') { 
+        document.getElementById('sell-product-list-container').style.display = 'block';
+        document.getElementById('sell-form').style.display = 'none';
+        document.getElementById('search-sell').value = ''; 
+        renderSellList(); 
+    }
+    if(name==='finance') { 
+        document.getElementById('search-finance').value = ''; 
+        document.getElementById('search-date').value = ''; 
+        currentCalDate = new Date(); // 탭 열 때 달력 날짜 초기화
+        setFinanceView('history'); 
+    }
+    if(name==='settings') {
+        const exp = getExpenses();
+        document.getElementById('exp-rent').value = exp.rent;
+        document.getElementById('exp-maint').value = exp.maint;
+        document.getElementById('exp-etc').value = exp.etc;
+    }
+}
+
+function renderHome() {
+    const sales = getSales();
+    const today = new Date().toDateString();
+    const todaySales = sales.filter(s => new Date(s.date).toDateString() === today);
+    const todayTotal = todaySales.reduce((a,s)=>a+s.total, 0);
+    
+    document.getElementById('today-sales').textContent = todayTotal.toLocaleString() + '원';
+    document.getElementById('today-count').textContent = todaySales.length + '건';
+    
+    const now = new Date();
+    const monthSales = sales.filter(s => {
+        const d = new Date(s.date);
+        return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    });
+    
+    const mTotal = monthSales.reduce((a,s)=>a+s.total, 0);
+    const mCost = monthSales.reduce((a,s)=>a+(s.cost * s.qty), 0);
+    const mVat = Math.floor(mTotal * 0.1);
+    const mNetMargin = mTotal - mCost - mVat;
+    
+    document.getElementById('month-profit').textContent = mNetMargin.toLocaleString() + '원';
+    document.getElementById('sum-sales').textContent = mTotal.toLocaleString() + '원';
+    document.getElementById('sum-vat').textContent = '-' + mVat.toLocaleString();
+
+    const recent = [...sales].sort((a,b)=>b.date-a.date).slice(0,3);
+    document.getElementById('recent-sales-list').innerHTML = recent.map(s => `
+        <div class="sale-item">
+            <div>
+              <div class="sale-name">${s.productName}</div>
+              <div class="sale-meta">${s.size} · <span style="font-family:'Inter',sans-serif;font-weight:600">${s.qty}</span>개 ${!s.isPaid ? '<span class="badge-red" style="margin-left:4px">미수금</span>' : ''}</div>
+            </div>
+            <div class="sale-amount">${s.total.toLocaleString()}원</div>
+        </div>
+    `).join('') || '<div style="color:var(--text3); font-size:12px; text-align:center; padding:20px;">내역 없음</div>';
+}
+
 function renderInventory() {
-  const prods = getProducts();
-  const el = document.getElementById('product-list');
-  if (!prods.length) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">👗</div><div class="empty-text">상품을 추가해주세요</div></div>';
-    return;
-  }
-  el.innerHTML = prods.map(p => {
-    const sizesHtml = ['S','M','L','XL'].map(sz => {
-      const q = p.sizes?.[sz] ?? 0;
-      const cls = q === 0 ? '' : q <= 2 ? 'low' : 'ok';
-      return `<div class="size-badge"><div class="size-label">${sz}</div><div class="size-qty ${cls}">${q}</div></div>`;
-    }).join('');
-    const totalQty = Object.values(p.sizes||{}).reduce((a,v)=>a+v,0);
-    return `
-      <div class="card">
-        <div class="prod-header">
-          <div>
-            <div class="prod-name">${p.name}</div>
-            <div class="prod-cat">${p.cat} · 재고 ${totalQty}개</div>
-          </div>
-          <div class="prod-price">${p.price.toLocaleString()}</div>
+    let prods = getProducts();
+    const q = document.getElementById('search-inventory').value.toLowerCase();
+    if(q) prods = prods.filter(p => p.name.toLowerCase().includes(q));
+
+    document.getElementById('product-list').innerHTML = prods.map(p => `
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start">
+                <div><div class="prod-name" style="font-weight:600">${p.name}</div><div class="sale-meta">사입가: <span style="font-family:'Inter', sans-serif; font-weight:600; letter-spacing:-0.5px">${p.cost?.toLocaleString()}</span></div></div>
+                <div class="prod-price">${p.price.toLocaleString()}원</div>
+            </div>
+            <div class="sizes-row">${['S','M','L','XL'].map(sz => `<div class="size-badge"><div class="size-label">${sz}</div><div class="size-qty ${p.sizes[sz]<=1?'low':''}">${p.sizes[sz]}</div></div>`).join('')}</div>
+            <div style="display:flex; gap:8px; margin-top:12px">
+                <button class="btn btn-outline btn-sm" onclick="editProduct('${p.id}')">수정</button>
+                <button class="btn btn-outline btn-sm" style="color:var(--red)" onclick="deleteProduct('${p.id}')">삭제</button>
+            </div>
         </div>
-        <div class="sizes-row">${sizesHtml}</div>
-        <div class="prod-actions">
-          <button class="btn btn-outline btn-sm" onclick="editProduct('${p.id}')">수정</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">삭제</button>
-        </div>
-      </div>
-    `;
-  }).join('');
+    `).join('') || '<div style="color:var(--text3); font-size:13px; text-align:center; padding:20px;">일치하는 상품이 없습니다.</div>';
 }
 
 function openAddProduct() {
-  editingProductId = null;
-  document.getElementById('modal-product-title').textContent = '상품 추가';
-  document.getElementById('p-name').value = '';
-  document.getElementById('p-cat').value = '상의';
-  document.getElementById('p-price').value = '';
-  ['S','M','L','XL'].forEach(sz => document.getElementById('sz-'+sz).value = '');
-  openModal('modal-product');
+    editingProductId = null;
+    ['p-name','p-cost','p-price','sz-S','sz-M','sz-L','sz-XL'].forEach(id=>document.getElementById(id).value='');
+    openModal('modal-product');
 }
 
 function editProduct(id) {
-  const p = getProducts().find(x => x.id === id);
-  if (!p) return;
-  editingProductId = id;
-  document.getElementById('modal-product-title').textContent = '상품 수정';
-  document.getElementById('p-name').value = p.name;
-  document.getElementById('p-cat').value = p.cat;
-  document.getElementById('p-price').value = p.price;
-  ['S','M','L','XL'].forEach(sz => document.getElementById('sz-'+sz).value = p.sizes?.[sz] ?? 0);
-  openModal('modal-product');
+    const p = getProducts().find(x=>x.id===id);
+    editingProductId = id;
+    document.getElementById('p-name').value = p.name;
+    document.getElementById('p-cost').value = p.cost || 0;
+    document.getElementById('p-price').value = p.price;
+    ['S','M','L','XL'].forEach(sz => document.getElementById('sz-'+sz).value = p.sizes[sz]);
+    openModal('modal-product');
 }
 
 function saveProduct() {
-  const name = document.getElementById('p-name').value.trim();
-  const cat = document.getElementById('p-cat').value;
-  const price = parseInt(document.getElementById('p-price').value) || 0;
-  const sizes = {};
-  ['S','M','L','XL'].forEach(sz => { sizes[sz] = parseInt(document.getElementById('sz-'+sz).value) || 0; });
-  if (!name) { toast('상품명을 입력해주세요'); return; }
-  if (!price) { toast('판매가를 입력해주세요'); return; }
-
-  const prods = getProducts();
-  if (editingProductId) {
-    const idx = prods.findIndex(p => p.id === editingProductId);
-    if (idx > -1) prods[idx] = { ...prods[idx], name, cat, price, sizes };
-  } else {
-    prods.push({ id: uid(), name, cat, price, sizes });
-  }
-  saveProducts(prods);
-  closeModal('modal-product');
-  renderInventory();
-  toast(editingProductId ? '수정 완료' : '상품 추가 완료');
+    const p = {
+        id: editingProductId || Date.now().toString(),
+        name: document.getElementById('p-name').value,
+        cost: parseInt(document.getElementById('p-cost').value) || 0,
+        price: parseInt(document.getElementById('p-price').value) || 0,
+        sizes: { S: parseInt(document.getElementById('sz-S').value)||0, M: parseInt(document.getElementById('sz-M').value)||0, L: parseInt(document.getElementById('sz-L').value)||0, XL: parseInt(document.getElementById('sz-XL').value)||0 }
+    };
+    let prods = getProducts();
+    if(editingProductId) prods = prods.map(x=>x.id===editingProductId?p:x);
+    else prods.push(p);
+    setData('dilla_prods', prods);
+    closeModal('modal-product');
+    renderInventory();
+    toast('저장되었습니다.');
 }
 
 function deleteProduct(id) {
-  if (!confirm('이 상품을 삭제할까요?')) return;
-  saveProducts(getProducts().filter(p => p.id !== id));
-  renderInventory();
-  toast('삭제되었습니다');
+    if(!confirm('해당 상품을 삭제하시겠습니까?')) return;
+    setData('dilla_prods', getProducts().filter(p => p.id !== id));
+    renderInventory();
 }
 
-// ─── SELL ────────────────────────────────────────────
-function renderSellList() {
-  const prods = getProducts();
-  const el = document.getElementById('sell-product-list');
-  document.getElementById('sell-form').style.display = 'none';
-  el.style.display = 'block';
+/* ================= 거래처 관리 ================= */
+function renderClients() {
+    let clients = getClients();
+    const q = document.getElementById('search-client').value.toLowerCase();
+    if(q) clients = clients.filter(c => c.name.toLowerCase().includes(q) || (c.memo||'').toLowerCase().includes(q));
 
-  if (!prods.length) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">👗</div><div class="empty-text">먼저 상품을 추가해주세요</div></div>';
-    return;
-  }
-  el.innerHTML = '<div class="sec-title">판매할 상품</div>' + prods.map(p => {
-    const totalQty = Object.values(p.sizes||{}).reduce((a,v)=>a+v,0);
-    return `
-      <div class="quick-prod" onclick="selectProduct('${p.id}')">
-        <div>
-          <div class="quick-prod-name">${p.name}</div>
-          <div class="quick-prod-price">${p.cat} · 재고 ${totalQty}개</div>
+    const sales = getSales();
+    
+    document.getElementById('client-list').innerHTML = clients.map(c => {
+        const clientSales = sales.filter(s => s.clientId === c.id);
+        const totalSales = clientSales.reduce((a,s)=>a+s.total, 0);
+        const orderCount = clientSales.length;
+        const unpaidTotal = clientSales.filter(s => !s.isPaid).reduce((a,s)=>a+s.total, 0);
+        
+        return `
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start">
+                <div>
+                    <div style="font-weight:600; font-size:16px;">${c.name}</div>
+                    <div class="sale-meta">${c.memo || '메모 없음'}</div>
+                    <div style="font-size:11px; color:var(--text2); margin-top:8px;">총 <span style="font-family:'Inter', sans-serif; font-weight:600">${orderCount}</span>건 거래 / 누적 매출 <span style="font-family:'Inter', sans-serif; font-weight:600">${totalSales.toLocaleString()}</span>원</div>
+                </div>
+                <div style="text-align:right">
+                    <div style="font-size:10px; color:var(--text3); margin-bottom:2px">현재 미수금</div>
+                    <div style="font-family:'Inter', sans-serif; font-size:18px; color:${unpaidTotal > 0 ? 'var(--red)' : 'var(--text)'}; font-weight:700; letter-spacing:-0.5px;">
+                        ${unpaidTotal.toLocaleString()}원
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:12px">
+                <button class="btn btn-outline btn-sm" onclick="editClient('${c.id}')">정보 수정</button>
+                <button class="btn btn-outline btn-sm" style="color:var(--red)" onclick="deleteClient('${c.id}')">삭제</button>
+            </div>
         </div>
-        <div style="font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--gold2)">${p.price.toLocaleString()}</div>
-      </div>
-    `;
-  }).join('');
+        `;
+    }).join('') || '<div style="color:var(--text3); font-size:13px; text-align:center; padding:20px;">일치하는 거래처가 없습니다.</div>';
+}
+
+function openAddClient() {
+    editingClientId = null;
+    document.getElementById('c-name').value = '';
+    document.getElementById('c-memo').value = '';
+    openModal('modal-client');
+}
+
+function editClient(id) {
+    const c = getClients().find(x=>x.id===id);
+    editingClientId = id;
+    document.getElementById('c-name').value = c.name;
+    document.getElementById('c-memo').value = c.memo || '';
+    openModal('modal-client');
+}
+
+function saveClient() {
+    const c = {
+        id: editingClientId || Date.now().toString(),
+        name: document.getElementById('c-name').value,
+        memo: document.getElementById('c-memo').value
+    };
+    if(!c.name) return toast('상호명을 입력해주세요.');
+    
+    let clients = getClients();
+    if(editingClientId) clients = clients.map(x=>x.id===editingClientId?c:x);
+    else clients.push(c);
+    
+    setData('dilla_clients', clients);
+    closeModal('modal-client');
+    renderClients();
+    toast('거래처가 저장되었습니다.');
+}
+
+function deleteClient(id) {
+    if(!confirm('거래처를 삭제하시겠습니까? (기존 장부 기록은 유지됩니다)')) return;
+    setData('dilla_clients', getClients().filter(c => c.id !== id));
+    renderClients();
+}
+
+/* ================= 판매 시스템 ================= */
+function renderSellList() {
+    let prods = getProducts();
+    const q = document.getElementById('search-sell').value.toLowerCase();
+    if(q) prods = prods.filter(p => p.name.toLowerCase().includes(q));
+
+    document.getElementById('sell-product-list').innerHTML = prods.map(p => `
+        <div class="card" onclick="selectProduct('${p.id}')" style="cursor:pointer; padding:14px">
+            <div style="font-weight:500; font-size:15px">${p.name}</div>
+            <div style="color:var(--gold2); margin-top:4px; font-family:'Inter', sans-serif; font-size:18px; font-weight:600; letter-spacing:-0.5px;">${p.price.toLocaleString()}원</div>
+        </div>
+    `).join('') || '<div style="color:var(--text3); font-size:13px; text-align:center; padding:20px;">일치하는 상품이 없습니다.</div>';
 }
 
 function selectProduct(id) {
-  const p = getProducts().find(x => x.id === id);
-  if (!p) return;
-  selectedProduct = p;
-  sellQty = 1;
+    selectedProduct = getProducts().find(x=>x.id===id);
+    document.getElementById('sell-prod-name').textContent = selectedProduct.name;
+    document.getElementById('sell-prod-price').textContent = selectedProduct.price.toLocaleString() + '원';
+    document.getElementById('sell-size').innerHTML = ['S','M','L','XL'].map(sz => `<option value="${sz}">${sz} (재고 ${selectedProduct.sizes[sz]})</option>`).join('');
+    document.getElementById('sell-price-override').value = selectedProduct.price;
+    document.getElementById('sell-qty-display').textContent = 1;
+    sellQty = 1;
+    
+    const clients = getClients();
+    document.getElementById('sell-client').innerHTML = `<option value="">일반 고객 (소매)</option>` + 
+        clients.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    
+    document.getElementById('sell-client').value = "";
+    document.getElementById('sell-is-paid').value = "true";
 
-  document.getElementById('sell-product-list').style.display = 'none';
-  document.getElementById('sell-form').style.display = 'block';
-  document.getElementById('sell-prod-name').textContent = p.name;
-  document.getElementById('sell-prod-price').textContent = p.price.toLocaleString() + '원';
-  document.getElementById('sell-qty-display').textContent = 1;
-  document.getElementById('sell-price-override').value = p.price;
-  document.getElementById('sell-memo').value = '';
-
-  const sizeEl = document.getElementById('sell-size');
-  sizeEl.innerHTML = ['S','M','L','XL'].map(sz => {
-    const q = p.sizes?.[sz] ?? 0;
-    return `<option value="${sz}" ${q===0?'disabled':''} >${sz} (재고 ${q}개)</option>`;
-  }).join('');
+    document.getElementById('sell-product-list-container').style.display = 'none';
+    document.getElementById('sell-form').style.display = 'block';
 }
 
-function changeQty(delta) {
-  sellQty = Math.max(1, sellQty + delta);
-  document.getElementById('sell-qty-display').textContent = sellQty;
-  if (selectedProduct) {
+function changeQty(d) {
+    sellQty = Math.max(1, sellQty + d);
+    document.getElementById('sell-qty-display').textContent = sellQty;
     document.getElementById('sell-price-override').value = selectedProduct.price * sellQty;
-  }
-}
-
-function cancelSell() {
-  selectedProduct = null;
-  renderSellList();
 }
 
 function completeSale() {
-  if (!selectedProduct) return;
-  const size = document.getElementById('sell-size').value;
-  const qty = sellQty;
-  const total = parseInt(document.getElementById('sell-price-override').value) || selectedProduct.price * qty;
-  const memo = document.getElementById('sell-memo').value.trim();
+    const sz = document.getElementById('sell-size').value;
+    const finalPrice = parseInt(document.getElementById('sell-price-override').value);
+    
+    const clientId = document.getElementById('sell-client').value || null;
+    const isPaid = document.getElementById('sell-is-paid').value === 'true';
 
-  const prods = getProducts();
-  const pidx = prods.findIndex(p => p.id === selectedProduct.id);
-  if (pidx < 0) return;
-  const curQty = prods[pidx].sizes?.[size] ?? 0;
-  if (curQty < qty) { toast(`재고 부족 (${size}: ${curQty}개)`); return; }
-  prods[pidx].sizes[size] -= qty;
-  saveProducts(prods);
-
-  const sales = getSales();
-  sales.push({
-    id: uid(), date: Date.now(),
-    productId: selectedProduct.id, productName: selectedProduct.name,
-    size, qty, price: selectedProduct.price, total, memo
-  });
-  saveSales(sales);
-
-  selectedProduct = null;
-  renderSellList();
-  toast(`✓ 판매 완료 · ${total.toLocaleString()}원`);
+    let prods = getProducts();
+    const pIdx = prods.findIndex(x=>x.id===selectedProduct.id);
+    if(prods[pIdx].sizes[sz] < sellQty) return toast('재고가 부족합니다.');
+    prods[pIdx].sizes[sz] -= sellQty;
+    setData('dilla_prods', prods);
+    
+    const sales = getSales();
+    sales.push({ 
+        id: Date.now(), 
+        date: Date.now(), 
+        productId: selectedProduct.id, 
+        productName: selectedProduct.name, 
+        cost: selectedProduct.cost || 0, 
+        size: sz, 
+        qty: sellQty, 
+        total: finalPrice,
+        clientId: clientId,
+        isPaid: isPaid
+    });
+    setData('dilla_sales', sales);
+    toast('장부에 등록되었습니다.');
+    
+    document.getElementById('sell-product-list-container').style.display = 'block';
+    document.getElementById('sell-form').style.display = 'none';
+    renderSellList();
 }
 
-// ─── HISTORY ─────────────────────────────────────────
-function filterHistory(f) {
-  historyFilter = f;
-  document.querySelectorAll('[id^="f-"]').forEach(b => {
-    b.style.borderColor = ''; b.style.color = '';
-  });
-  const active = document.getElementById('f-'+f);
-  active.style.borderColor = 'var(--gold)';
-  active.style.color = 'var(--gold)';
-  renderHistory();
+function cancelSell() { 
+    document.getElementById('sell-product-list-container').style.display = 'block';
+    document.getElementById('sell-form').style.display = 'none';
+    renderSellList(); 
 }
 
-function renderHistory() {
-  let sales = getSales();
-  if (historyFilter === 'today') sales = sales.filter(s => isToday(s.date));
-  else if (historyFilter === 'week') sales = sales.filter(s => isThisWeek(s.date));
-  else if (historyFilter === 'month') sales = sales.filter(s => isThisMonth(s.date));
-  sales = [...sales].sort((a,b) => b.date - a.date);
+/* ================= 정산 (장부) 시스템 ================= */
+function changePeriod(p, btn) {
+    currentPeriod = p;
+    document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('search-date').value = ''; 
+    renderFinance();
+}
 
-  const el = document.getElementById('history-list');
-  if (!sales.length) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">📋</div><div class="empty-text">내역이 없습니다</div></div>';
-    return;
-  }
+function saveExpenses() {
+    const exp = { 
+        rent: parseInt(document.getElementById('exp-rent').value) || 0, 
+        maint: parseInt(document.getElementById('exp-maint').value) || 0, 
+        etc: parseInt(document.getElementById('exp-etc').value) || 0 
+    };
+    localStorage.setItem('dilla_exp', JSON.stringify(exp));
+    toast('설정이 저장되었습니다.');
+    if(document.getElementById('page-finance').classList.contains('active')) renderFinance();
+}
 
-  // 날짜별 그룹
-  const groups = {};
-  sales.forEach(s => {
-    const d = new Date(s.date);
-    const key = `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(s);
-  });
+function toggleFixedExp(isChecked) {
+    const now = new Date();
+    const currentMonthKey = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+    let paidMonths = getPaidMonths();
+    
+    if (isChecked) {
+        if (!paidMonths.find(m => m.month === currentMonthKey)) {
+            const currentExp = getExpenses();
+            paidMonths.push({ month: currentMonthKey, rent: currentExp.rent, maint: currentExp.maint, etc: currentExp.etc });
+            toast('이번 달 고정 지출 납부 완료!');
+        }
+    } else {
+        paidMonths = paidMonths.filter(m => m.month !== currentMonthKey);
+        toast('납부 기록을 취소했습니다.');
+    }
+    
+    setData('dilla_paid_months', paidMonths);
+    renderFinance();
+}
 
-  el.innerHTML = Object.entries(groups).map(([day, items]) => {
-    const dayTotal = items.reduce((a,s) => a+s.total, 0);
-    return `
-      <div class="history-day">${day} · ${dayTotal.toLocaleString()}원</div>
-      ${items.map(s => `
-        <div class="history-item">
-          <div>
-            <div style="font-size:14px; font-weight:500">${s.productName}</div>
-            <div style="font-size:11px; color:var(--text3); margin-top:2px">${s.size} · ${s.qty}개${s.memo ? ' · '+s.memo : ''}</div>
-            <div style="font-size:11px; color:var(--text3)">${formatDate(s.date)}</div>
-          </div>
-          <div style="display:flex; align-items:center; gap:10px">
-            <div style="font-family:'Cormorant Garamond',serif; font-size:19px; color:var(--gold2)">${s.total.toLocaleString()}</div>
-            <button class="history-del" onclick="deleteSale('${s.id}')">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-            </button>
-          </div>
+function markAsPaid(saleId) {
+    if(!confirm('이 건을 입금 완료 처리하시겠습니까?')) return;
+    const sales = getSales();
+    const idx = sales.findIndex(s => s.id === saleId);
+    if(idx > -1) {
+        sales[idx].isPaid = true;
+        setData('dilla_sales', sales);
+        renderFinance();
+        toast('입금 완료 처리되었습니다.');
+    }
+}
+
+function setFinanceView(view) {
+    currentFinanceView = view;
+    ['history', 'calendar', 'date', 'client'].forEach(v => {
+        const btn = document.getElementById('view-btn-' + v);
+        if(btn) btn.className = (v === view) ? 'btn btn-sm btn-gold' : 'btn btn-sm btn-outline';
+    });
+    renderFinanceListOnly();
+}
+
+function changeCalMonth(offset) {
+    currentCalDate.setMonth(currentCalDate.getMonth() + offset);
+    renderFinanceListOnly();
+}
+
+let currentFilteredSalesForFinance = []; 
+let currentClientsForFinance = [];
+
+function renderFinanceListOnly() {
+    const q = document.getElementById('search-finance').value.toLowerCase();
+    const dateQ = document.getElementById('search-date').value; 
+    let allSales = getSales();
+    
+    // 달력 뷰 전용 렌더링 로직
+    if (currentFinanceView === 'calendar') {
+        let calSales = allSales;
+        
+        // 1. 텍스트/검색어 필터 적용
+        if(q) {
+            calSales = calSales.filter(s => {
+                const clientName = s.clientId ? (currentClientsForFinance.find(c=>c.id===s.clientId)?.name || '삭제된 거래처') : '일반 고객';
+                return s.productName.toLowerCase().includes(q) || clientName.toLowerCase().includes(q);
+            });
+        }
+        
+        // 2. 현재 달력 연/월 필터
+        const y = currentCalDate.getFullYear();
+        const m = currentCalDate.getMonth();
+        calSales = calSales.filter(s => {
+            const d = new Date(s.date);
+            return d.getFullYear() === y && d.getMonth() === m;
+        });
+        
+        // 3. 일자별 매출 합산
+        const salesByDay = {};
+        calSales.forEach(s => {
+            const dStr = new Date(s.date).getDate();
+            if(!salesByDay[dStr]) salesByDay[dStr] = 0;
+            salesByDay[dStr] += s.total;
+        });
+        
+        const firstDay = new Date(y, m, 1).getDay();
+        const lastDate = new Date(y, m + 1, 0).getDate();
+        const today = new Date();
+        
+        let calHtml = `
+            <div class="card" style="padding:16px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                    <button onclick="changeCalMonth(-1)" style="background:var(--bg3); border:1px solid var(--border); color:var(--text); border-radius:8px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <div style="font-family:'Inter', sans-serif; font-size:16px; font-weight:700;">${y}년 ${m+1}월</div>
+                    <button onclick="changeCalMonth(1)" style="background:var(--bg3); border:1px solid var(--border); color:var(--text); border-radius:8px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center; font-family:'Inter', sans-serif; font-size:11px; color:var(--text3); margin-bottom:8px; font-weight:500;">
+                    <div style="color:var(--red)">일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div style="color:var(--blue)">토</div>
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px;">
+        `;
+        
+        // 앞쪽 빈칸 채우기
+        for(let i=0; i<firstDay; i++) {
+            calHtml += `<div style="background:rgba(255,255,255,0.02); border-radius:8px; min-height:54px;"></div>`;
+        }
+        
+        // 날짜 채우기
+        for(let i=1; i<=lastDate; i++) {
+            const isToday = (today.getFullYear() === y && today.getMonth() === m && today.getDate() === i);
+            const daySales = salesByDay[i] || 0;
+            
+            let displaySales = '';
+            if(daySales > 0) {
+                if(daySales >= 10000) displaySales = (daySales / 10000).toFixed(1).replace(/\.0$/, '') + '만';
+                else displaySales = daySales.toLocaleString();
+            }
+            
+            calHtml += `
+                <div style="background:var(--bg3); border:1px solid ${isToday ? 'var(--gold)' : 'transparent'}; border-radius:8px; padding:4px 2px; min-height:54px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+                    <div style="font-family:'Inter', sans-serif; font-size:11px; color:${isToday ? 'var(--gold)' : 'var(--text2)'}; font-weight:${isToday ? '700' : '500'};">${i}</div>
+                    <div style="font-family:'Inter', sans-serif; font-size:10px; font-weight:700; color:var(--gold2); margin-top:auto; letter-spacing:-0.5px;">${displaySales}</div>
+                </div>
+            `;
+        }
+        calHtml += `</div></div>`;
+        document.getElementById('history-list').innerHTML = calHtml;
+        return;
+    }
+
+    // 다른 뷰 (상세 내역, 일자별, 거래처별) 처리 로직
+    let filtered = currentFilteredSalesForFinance;
+
+    if(q) {
+        filtered = filtered.filter(s => {
+            const clientName = s.clientId ? (currentClientsForFinance.find(c=>c.id===s.clientId)?.name || '삭제된 거래처') : '일반 고객';
+            return s.productName.toLowerCase().includes(q) || clientName.toLowerCase().includes(q);
+        });
+    }
+
+    if(dateQ) {
+        filtered = filtered.filter(s => {
+            const d = new Date(s.date);
+            const localDateStr = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+            return localDateStr === dateQ;
+        });
+    }
+
+    let listHtml = '';
+
+    if(currentFinanceView === 'history') {
+        listHtml = [...filtered].reverse().map(s => {
+            const clientName = s.clientId ? (currentClientsForFinance.find(c=>c.id===s.clientId)?.name || '삭제된 거래처') : '일반 고객';
+            const paidStatusBadge = s.isPaid ? '<span class="badge-green">입금완료</span>' : '<span class="badge-red">미수금</span>';
+            return `
+            <div class="card" style="padding:12px; font-size:13px; border-left: 3px solid ${s.isPaid ? 'var(--border)' : 'var(--red)'}">
+                <div style="display:flex; justify-content:space-between">
+                    <div><span style="color:var(--gold); font-weight:600;">[${clientName}]</span> <span style="font-weight:500">${s.productName}</span></div>
+                    <span class="sale-amount">${s.total.toLocaleString()}원</span>
+                </div>
+                <div style="color:var(--text3); margin-top:6px; display:flex; justify-content:space-between; align-items:center">
+                    <span>${s.size} / <span style="font-family:'Inter', sans-serif; font-weight:600">${s.qty}</span>개 (${new Date(s.date).toLocaleDateString()})</span>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        ${paidStatusBadge}
+                        ${!s.isPaid ? `<button onclick="markAsPaid(${s.id})" style="background:var(--gold); color:#000; border:none; padding:3px 6px; border-radius:4px; font-size:10px; font-weight:600; cursor:pointer;">입금확인</button>` : ''}
+                        <button onclick="deleteSale(${s.id})" style="background:none; border:none; color:var(--text3); font-size:11px; cursor:pointer;">삭제</button>
+                    </div>
+                </div>
+            </div>
+            `;
+        }).join('');
+    } 
+    else if (currentFinanceView === 'date') {
+        const dateMap = {};
+        filtered.forEach(s => {
+            const dStr = new Date(s.date).toLocaleDateString();
+            if(!dateMap[dStr]) dateMap[dStr] = { total: 0, cost: 0, count: 0 };
+            dateMap[dStr].total += s.total;
+            dateMap[dStr].cost += (s.cost * s.qty);
+            dateMap[dStr].count += 1;
+        });
+        
+        const sortedDates = Object.keys(dateMap).sort((a,b) => new Date(b) - new Date(a));
+        listHtml = sortedDates.map(d => {
+            const margin = dateMap[d].total - dateMap[d].cost - Math.floor(dateMap[d].total * 0.1);
+            return `
+            <div class="card" style="padding:12px; font-size:13px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                    <span style="font-weight:600; color:var(--gold)">${d}</span>
+                    <span style="font-weight:600; color:var(--text)">매출 <span style="font-family:'Inter', sans-serif;">${dateMap[d].total.toLocaleString()}</span>원</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; color:var(--text3); font-size:11px;">
+                    <span>총 <span style="font-family:'Inter', sans-serif; font-weight:600">${dateMap[d].count}</span>건 거래</span>
+                    <span style="color:${margin < 0 ? 'var(--red)' : 'var(--green)'}; font-weight:500;">판매 마진: <span style="font-family:'Inter', sans-serif;">${margin.toLocaleString()}</span>원</span>
+                </div>
+            </div>
+            `;
+        }).join('');
+    }
+    else if (currentFinanceView === 'client') {
+        const clientMap = {};
+        filtered.forEach(s => {
+            const cId = s.clientId || 'general';
+            if(!clientMap[cId]) {
+                const cName = cId === 'general' ? '일반 고객' : (currentClientsForFinance.find(c=>c.id===cId)?.name || '삭제된 거래처');
+                clientMap[cId] = { total: 0, unpaid: 0, count: 0, name: cName };
+            }
+            clientMap[cId].total += s.total;
+            if(!s.isPaid) clientMap[cId].unpaid += s.total;
+            clientMap[cId].count += 1;
+        });
+        
+        const sortedClients = Object.values(clientMap).sort((a,b) => b.total - a.total);
+        listHtml = sortedClients.map(c => `
+            <div class="card" style="padding:12px; font-size:13px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                    <span style="font-weight:600; color:var(--gold)">${c.name}</span>
+                    <span style="font-weight:600; font-family:'Inter', sans-serif; font-size:15px; letter-spacing:-0.5px; color:var(--text)">${c.total.toLocaleString()}원</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; color:var(--text3); font-size:11px;">
+                    <span>총 <span style="font-family:'Inter', sans-serif; font-weight:600">${c.count}</span>건 거래</span>
+                    ${c.unpaid > 0 ? `<span style="color:var(--red); font-weight:600">미수금 <span style="font-family:'Inter', sans-serif;">${c.unpaid.toLocaleString()}</span>원</span>` : '<span style="color:var(--green); font-weight:500;">미수금 없음</span>'}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    document.getElementById('history-list').innerHTML = listHtml || '<div style="color:var(--text3); font-size:13px; text-align:center; padding:20px;">일치하는 내역이 없습니다.</div>';
+}
+
+function renderFinance() {
+    const now = new Date();
+    const sales = getSales();
+    const clients = getClients();
+    currentClientsForFinance = clients;
+    
+    let filteredSales = [];
+    let title = "";
+
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const tempDate = new Date();
+    const startOfWeek = new Date(tempDate.setDate(tempDate.getDate() - tempDate.getDay() + (tempDate.getDay() === 0 ? -6 : 1))).setHours(0,0,0,0);
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+    const startOfYear = new Date(now.getFullYear(), 0, 1).getTime();
+
+    if (currentPeriod === 'day') {
+        filteredSales = sales.filter(s => s.date >= startOfDay);
+        title = "오늘의 정산 상세";
+    } else if (currentPeriod === 'week') {
+        filteredSales = sales.filter(s => s.date >= startOfWeek);
+        title = "이번 주 정산 상세";
+    } else if (currentPeriod === 'month') {
+        filteredSales = sales.filter(s => s.date >= startOfMonth);
+        title = "이번 달 정산 상세";
+    } else if (currentPeriod === 'year') {
+        filteredSales = sales.filter(s => s.date >= startOfYear);
+        title = "올해 정산 상세";
+    }
+
+    currentFilteredSalesForFinance = filteredSales;
+    document.getElementById('finance-title').textContent = title;
+
+    const mTotal = filteredSales.reduce((a,s)=>a+s.total, 0);
+    const mCost = filteredSales.reduce((a,s)=>a+(s.cost * s.qty), 0);
+    const mVat = Math.floor(mTotal * 0.1);
+    const unpaidTotal = filteredSales.filter(s => !s.isPaid).reduce((a,s)=>a+s.total, 0);
+    
+    let mNet = mTotal - mCost - mVat;
+    let fixedBreakdownHTML = '';
+
+    if (currentPeriod === 'month') {
+        const currentMonthKey = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+        const paidData = getPaidMonths().find(m => m.month === currentMonthKey);
+        const isPaid = !!paidData;
+        
+        const activeExp = isPaid ? paidData : getExpenses();
+        const activeTotalExp = activeExp.rent + activeExp.maint + activeExp.etc;
+        
+        if (isPaid) mNet -= activeTotalExp;
+
+        fixedBreakdownHTML = `
+            <div style="background:var(--bg3); padding:12px; border-radius:10px; margin-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div style="font-weight:600; font-size:13px; color:var(--text);">이번 달 고정 지출 납부</div>
+                    <div style="font-size:11px; color:var(--text2); margin-top:2px;">금액: <span style="font-family:'Inter', sans-serif; font-weight:600">${activeTotalExp.toLocaleString()}</span>원</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" onchange="toggleFixedExp(this.checked)" ${isPaid ? 'checked' : ''}>
+                    <span class="slider"></span>
+                </label>
+            </div>
+        `;
+    } else if (currentPeriod === 'year') {
+        const yearString = now.getFullYear().toString();
+        const paidMonthsThisYear = getPaidMonths().filter(m => m.month.startsWith(yearString));
+        
+        let yRent = 0, yMaint = 0, yEtc = 0;
+        paidMonthsThisYear.forEach(record => { yRent += record.rent; yMaint += record.maint; yEtc += record.etc; });
+        const totalDeductedExp = yRent + yMaint + yEtc;
+        mNet -= totalDeductedExp;
+        
+        fixedBreakdownHTML = `
+            <div style="background:var(--bg3); padding:10px 12px; border-radius:8px; margin-top:12px; font-size:12px; color:var(--text2);">
+                <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                    <span style="color:var(--text); font-weight:500;">연간 고정 지출 차감 누적</span>
+                    <span style="font-family:'Inter', sans-serif; font-weight:600">-${totalDeductedExp.toLocaleString()}원</span>
+                </div>
+                <div style="font-size:11px; color:var(--text3); text-align:right;">(총 ${paidMonthsThisYear.length}개월 납부 이력 합산)</div>
+            </div>
+        `;
+    } else {
+        fixedBreakdownHTML = `<div style="padding:6px 0 0 0; font-size:11px; color:var(--text3); text-align:right;">* 일/주별 내역은 고정 지출이 차감되지 않은 '판매 마진'입니다.</div>`;
+    }
+
+    const netColorClass = mNet < 0 ? 'val-minus' : 'val-plus';
+
+    document.getElementById('finance-summary-card').innerHTML = `
+        <div class="finance-row"><span class="finance-label">총 장부 매출액</span><span class="finance-val">${mTotal.toLocaleString()}원</span></div>
+        <div class="finance-row"><span class="finance-label" style="color:var(--red)">└ 현재 총 미수금</span><span class="finance-val" style="color:var(--red)">${unpaidTotal.toLocaleString()}원</span></div>
+        <div class="finance-row"><span class="finance-label">총 사입비</span><span class="finance-val val-minus">-${mCost.toLocaleString()}원</span></div>
+        <div class="finance-row"><span class="finance-label">부가세 (10%)</span><span class="finance-val val-minus">-${mVat.toLocaleString()}원</span></div>
+        ${fixedBreakdownHTML}
+        <div class="finance-row" style="margin-top:10px; padding-top:15px; border-top:1px dashed var(--border)">
+            <span class="finance-label" style="color:var(--text)">최종 순수익 (미수금 포함)</span>
+            <span class="finance-val ${netColorClass}" style="font-size:22px">${mNet.toLocaleString()}원</span>
         </div>
-      `).join('')}
     `;
-  }).join('');
+
+    const clientSalesMap = {};
+    filteredSales.forEach(s => {
+        if(s.clientId) {
+            if(!clientSalesMap[s.clientId]) clientSalesMap[s.clientId] = { total: 0, unpaid: 0, count: 0 };
+            clientSalesMap[s.clientId].total += s.total;
+            if(!s.isPaid) clientSalesMap[s.clientId].unpaid += s.total;
+            clientSalesMap[s.clientId].count += 1;
+        }
+    });
+    
+    const rankedClients = Object.keys(clientSalesMap).map(id => {
+        const cInfo = clients.find(c=>c.id===id);
+        return { name: cInfo ? cInfo.name : '삭제된 거래처', ...clientSalesMap[id] };
+    }).sort((a,b) => b.total - a.total).slice(0, 5);
+
+    document.getElementById('finance-ranking-card').innerHTML = rankedClients.map((c, i) => `
+        <div class="finance-row" style="align-items:center;">
+            <div>
+                <span style="color:var(--gold); font-family:'Inter', sans-serif; font-weight:700; margin-right:6px;">${i+1}</span>
+                <span class="finance-label" style="color:var(--text)">${c.name}</span>
+                <span style="font-size:10px; color:var(--text3); margin-left:4px">(<span style="font-family:'Inter', sans-serif; font-weight:600">${c.count}</span>건)</span>
+            </div>
+            <div style="text-align:right;">
+                <div class="finance-val" style="font-size:15px">${c.total.toLocaleString()}원</div>
+                ${c.unpaid > 0 ? `<div style="color:var(--red); font-size:10px; margin-top:2px;">미수금 <span style="font-family:'Inter', sans-serif; font-weight:600">${c.unpaid.toLocaleString()}</span>원</div>` : ''}
+            </div>
+        </div>
+    `).join('') || '<div style="color:var(--text3); font-size:12px; text-align:center; padding:10px;">해당 기간 내 거래처 매출 내역이 없습니다.</div>';
+
+    renderFinanceListOnly();
 }
 
 function deleteSale(id) {
-  if (!confirm('이 판매 내역을 삭제할까요?')) return;
-  // 재고 복원
-  const sales = getSales();
-  const s = sales.find(x => x.id === id);
-  if (s) {
+    if(!confirm('장부에서 이 판매 내역을 삭제하시겠습니까? (재고는 복원됩니다)')) return;
+    const sales = getSales();
+    const s = sales.find(x=>x.id===id);
     const prods = getProducts();
-    const pidx = prods.findIndex(p => p.id === s.productId);
-    if (pidx > -1 && prods[pidx].sizes) {
-      prods[pidx].sizes[s.size] = (prods[pidx].sizes[s.size] || 0) + s.qty;
-      saveProducts(prods);
-    }
-  }
-  saveSales(sales.filter(x => x.id !== id));
-  renderHistory();
-  toast('삭제 및 재고 복원 완료');
+    const pIdx = prods.findIndex(x=>x.id===s.productId);
+    if(pIdx > -1) { prods[pIdx].sizes[s.size] += s.qty; setData('dilla_prods', prods); }
+    setData('dilla_sales', sales.filter(x=>x.id!==id));
+    renderFinance();
+    toast('삭제 및 재고 복원 완료');
 }
 
-// ─── INIT ─────────────────────────────────────────────
-initSample();
-setTopDate();
-renderHome();
+window.onload = init;
 </script>
 </body>
 </html>
