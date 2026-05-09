@@ -332,7 +332,7 @@ let selectedProduct = null;
 let sellQty = 1;
 let currentPeriod = 'month';
 let currentFinanceView = 'history'; 
-let currentCalDate = new Date(); // 달력 전용 기준일
+let currentCalDate = new Date(); 
 
 function getData(k) { return JSON.parse(localStorage.getItem(k) || '[]'); }
 function setData(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
@@ -354,9 +354,11 @@ function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
 function init() {
+    /* 샘플 데이터 자동 생성 로직 제거 
     if(getProducts().length === 0) {
         setData('dilla_prods', [{id:'p1', name:'디올 테일러드 자켓', cost:85000, price:189000, sizes:{S:2,M:3,L:2,XL:1}}]);
     }
+    */
     const n = new Date();
     document.getElementById('topDate').textContent = `${n.getFullYear()}.${n.getMonth()+1}.${n.getDate()}`;
     const exp = getExpenses();
@@ -384,7 +386,7 @@ function goTab(name, btn) {
     if(name==='finance') { 
         document.getElementById('search-finance').value = ''; 
         document.getElementById('search-date').value = ''; 
-        currentCalDate = new Date(); // 탭 열 때 달력 날짜 초기화
+        currentCalDate = new Date(); 
         setFinanceView('history'); 
     }
     if(name==='settings') {
@@ -448,7 +450,7 @@ function renderInventory() {
                 <button class="btn btn-outline btn-sm" style="color:var(--red)" onclick="deleteProduct('${p.id}')">삭제</button>
             </div>
         </div>
-    `).join('') || '<div style="color:var(--text3); font-size:13px; text-align:center; padding:20px;">일치하는 상품이 없습니다.</div>';
+    `).join('') || '<div style="color:var(--text3); font-size:13px; text-align:center; padding:20px;">등록된 상품이 없습니다.</div>';
 }
 
 function openAddProduct() {
@@ -721,11 +723,9 @@ function renderFinanceListOnly() {
     const dateQ = document.getElementById('search-date').value; 
     let allSales = getSales();
     
-    // 달력 뷰 전용 렌더링 로직
     if (currentFinanceView === 'calendar') {
         let calSales = allSales;
         
-        // 1. 텍스트/검색어 필터 적용
         if(q) {
             calSales = calSales.filter(s => {
                 const clientName = s.clientId ? (currentClientsForFinance.find(c=>c.id===s.clientId)?.name || '삭제된 거래처') : '일반 고객';
@@ -733,7 +733,6 @@ function renderFinanceListOnly() {
             });
         }
         
-        // 2. 현재 달력 연/월 필터
         const y = currentCalDate.getFullYear();
         const m = currentCalDate.getMonth();
         calSales = calSales.filter(s => {
@@ -741,7 +740,6 @@ function renderFinanceListOnly() {
             return d.getFullYear() === y && d.getMonth() === m;
         });
         
-        // 3. 일자별 매출 합산
         const salesByDay = {};
         calSales.forEach(s => {
             const dStr = new Date(s.date).getDate();
@@ -770,12 +768,10 @@ function renderFinanceListOnly() {
                 <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px;">
         `;
         
-        // 앞쪽 빈칸 채우기
         for(let i=0; i<firstDay; i++) {
             calHtml += `<div style="background:rgba(255,255,255,0.02); border-radius:8px; min-height:54px;"></div>`;
         }
         
-        // 날짜 채우기
         for(let i=1; i<=lastDate; i++) {
             const isToday = (today.getFullYear() === y && today.getMonth() === m && today.getDate() === i);
             const daySales = salesByDay[i] || 0;
@@ -798,7 +794,6 @@ function renderFinanceListOnly() {
         return;
     }
 
-    // 다른 뷰 (상세 내역, 일자별, 거래처별) 처리 로직
     let filtered = currentFilteredSalesForFinance;
 
     if(q) {
